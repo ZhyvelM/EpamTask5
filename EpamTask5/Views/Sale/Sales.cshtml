@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EpamTask5.Models.SaleViewModel>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new object { }, new { @class = "btn" })
+</p>
+<table class="table table-bordered table-hover table-inverse table-striped" id="Table1">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SaleManager)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SaleManager)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<script>
+    $(document).ready(function() {
+      $('#Table1').DataTable();
+    });
+</script>

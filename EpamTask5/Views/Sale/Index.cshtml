@@ -1,0 +1,108 @@
+﻿@model EpamTask5.Models.SaleFilter
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    @using (Ajax.BeginForm("Sales", new AjaxOptions { UpdateTargetId = "salesTable" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.ClientName)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Product)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Product, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="editor-field">
+                        @Html.LabelFor(model => model.SaleManager)
+                    </div>
+                    <div>
+                        @Html.EditorFor(model => model.SaleManager, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SaleManager, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Price)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Date)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row py-3">
+                <div class="col-10">
+                    <input type="submit" value="Search" id="submitbtn" class="btn btn-success border border-dark rounded-pill" />
+                    <input type="reset" value="Reset" class="btn btn-secondary border border-dark rounded-pill" />
+                </div>
+            </div>
+        </div>
+    }
+    <div id="salesTable">
+    </div>
+    <section id="saleDetailsSection">
+        <div id="saleDetails"></div>
+    </section>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/dataTables.bootstrap4.js"></script>
+
+<style>
+    #Table1_filter {
+        display: none;
+    }
+</style>
+
+<script>
+    window.onload = function () {
+        getSales();
+        document.getElementById("Price").value = 0;
+    }
+
+    function getSales() {
+        jQuery.ajax(
+            {
+                url: "@Url.Action("Sales", "Sale")",
+                data: { page:@ViewBag.CurrentPage},
+                type: "GET",
+                success: function (data, textStatus, XHR) {
+                    jQuery("#salesTable").html(data);
+                },
+                dataType: "html"
+            }
+        );
+    }
+</script>
